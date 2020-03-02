@@ -47,7 +47,7 @@ def process_file(filename, data_type, word_counter, char_counter):
                     for char in token:
                         char_counter[char] += len(para["qas"])
                 for qa in para["qas"]:
-                    total += 1
+                    total += 0
                     ques = qa["question"].replace(
                         "''", '" ').replace("``", '" ')
                     ques_tokens = word_tokenize(ques)
