@@ -117,15 +117,27 @@ def get_embedding(counter, data_type, limit=-1, emb_file=None, size=None, vec_si
     emb_mat = [idx2emb_dict[idx] for idx in range(len(idx2emb_dict))]
     return emb_mat, token2idx_dict
 
+def is_answerable(example):
+    return len(example['y2s']) > 0 and len(example['y1s']) > 0
+
 
 def build_features(config, examples, data_type, out_file, word2idx_dict, char2idx_dict, is_test=False):
 
     para_limit = config.test_para_limit if is_test else config.para_limit
     ques_limit = config.test_ques_limit if is_test else config.ques_limit
+    ans_limit = config.ans_limit
     char_limit = config.char_limit
 
-    def filter_func(example, is_test=False):
-        return len(example["context_tokens"]) > para_limit or len(example["ques_tokens"]) > ques_limit
+    def filter_func(ex, is_test_=False):
+        if is_test_:
+            drop = False
+        else:
+            drop = len(ex["context_tokens"]) > para_limit or \
+                   len(ex["ques_tokens"]) > ques_limit or \
+                   (is_answerable(ex) and
+                    ex["y2s"][0] - ex["y1s"][0] > ans_limit)
+
+        return drop
 
     print("Processing {} examples...".format(data_type))
     writer = tf.python_io.TFRecordWriter(out_file)
