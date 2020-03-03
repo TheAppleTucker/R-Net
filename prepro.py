@@ -191,7 +191,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
             start, end = example["y1s"][-1], example["y2s"][-1]
             y1[start], y2[end] = 1.0, 1.0
         else:
-            start, end = -1
+            start, end = -1, -1
         
 
         record = tf.train.Example(features=tf.train.Features(feature={
