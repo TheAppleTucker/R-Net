@@ -36,11 +36,12 @@ def get_record_parser(config, is_test=False):
         if config.use_squad_v2:
             ones = tf.ones([1], tf.int32)
             context_idxs = tf.concat([ones, context_idxs], 0)
-            ques_idxs = tf.concat([ones, context_idxs], 0)
-            
+            #ques_idxs = tf.concat([ones, context_idxs], 0)
             ones = tf.ones([1, char_limit], tf.int32)
             context_char_idxs = tf.concat([ones, context_char_idxs], 0)
-            ques_char_idxs = tf.concat([ones, ques_char_idxs], 0)
+            #ques_char_idxs = tf.concat([ones, ques_char_idxs], 0)
+            
+            
             
         return context_idxs, ques_idxs, context_char_idxs, ques_char_idxs, y1, y2, qa_id
     return parse
@@ -110,8 +111,8 @@ def evaluate(eval_file, answer_dict, no_answer):
             exact_match_score, prediction, ground_truths)
         f1 += metric_max_over_ground_truths(f1_score,
                                             prediction, ground_truths)
-        if no_answer:
-            avna += compute_avna(prediction, ground_truths)
+        #if no_answer:
+        #    avna += compute_avna(prediction, ground_truths)
         
     eval_dict = {'exact_match' : 100.0 * exact_match / total, 
                  'f1': 100.0 * f1 / total}

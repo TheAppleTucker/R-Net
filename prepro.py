@@ -159,7 +159,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
         y2 = np.zeros([para_limit], dtype=np.float32)
 
         def _get_word(word):
-            for each in (word, word.lower(), word.capitalize(), word.upper()):
+            for each in (word, word.lxower(), word.capitalize(), word.upper()):
                 if each in word2idx_dict:
                     return word2idx_dict[each]
             return 1
