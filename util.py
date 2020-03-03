@@ -105,7 +105,7 @@ def evaluate(eval_file, answer_dict, no_answer):
             avna += compute_avna(prediction, ground_truths)
         
     eval_dict = {'exact_match' : 100.0 * exact_match / total, 
-                 'F1': 100.0 * f1 / total}
+                 'f1': 100.0 * f1 / total}
     
     if no_answer:
         eval_dict['AvNA'] = 100.0 * avna / total
