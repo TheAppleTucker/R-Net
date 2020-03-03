@@ -67,7 +67,7 @@ def train(config):
                     writer.add_summary(s, global_step)
 
                 metrics, summ = evaluate_batch(
-                    model, dev_total // config.batch_size + 1, dev_eval_file, sess, "dev", handle, dev_handle)
+                    model, dev_total // config.batch_size + 1, dev_eval_file, sess, "dev", handle, dev_handle, config.use_squad_v2)
                 sess.run(tf.assign(model.is_train,
                                    tf.constant(True, dtype=tf.bool)))
 
@@ -101,7 +101,7 @@ def evaluate_batch(model, num_batches, eval_file, sess, data_type, handle, str_h
         answer_dict.update(answer_dict_)
         losses.append(loss)
     loss = np.mean(losses)
-    metrics = evaluate(eval_file, answer_dict)
+    metrics = evaluate(eval_file, answer_dict, config.use_squad_v2)
     metrics["loss"] = loss
     loss_sum = tf.Summary(value=[tf.Summary.Value(
         tag="{}/loss".format(data_type), simple_value=metrics["loss"]), ])
@@ -150,7 +150,7 @@ def test(config):
             remapped_dict.update(remapped_dict_)
             losses.append(loss)
         loss = np.mean(losses)
-        metrics = evaluate(eval_file, answer_dict)
+        metrics = evaluate(eval_file, answer_dict, config.use_squad_v2)
         with open(config.answer_file, "w") as fh:
             json.dump(remapped_dict, fh)
         print("Exact Match: {}, F1: {}".format(
