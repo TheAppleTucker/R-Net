@@ -71,22 +71,28 @@ def get_dataset(record_file, parser, config):
     return dataset
 
 
-def convert_tokens(eval_file, qa_id, pp1, pp2):
+def convert_tokens(eval_file, qa_id, pp1, pp2, no_answer):
     answer_dict = {}
     remapped_dict = {}
     for qid, p1, p2 in zip(qa_id, pp1, pp2):
         context = eval_file[str(qid)]["context"]
         spans = eval_file[str(qid)]["spans"]
         uuid = eval_file[str(qid)]["uuid"]
-        start_idx = spans[p1][0]
-        end_idx = spans[p2][1]
-        answer_dict[str(qid)] = context[start_idx: end_idx]
-        remapped_dict[uuid] = context[start_idx: end_idx]
+        if no_answer and (p1 == 0 and p2 == 0):
+            answer_dict[str(qid)] = ''
+            remapped_dict[uuid] = ''
+        else:
+            if no_answer:
+                p1, p2 = p1 - 1, p2 - 1
+            start_idx = spans[p1][0]
+            end_idx = spans[p2][1]
+            answer_dict[str(qid)] = context[start_idx: end_idx]
+            remapped_dict[uuid] = context[start_idx: end_idx]
     return answer_dict, remapped_dict
 
 
-def evaluate(eval_file, answer_dict):
-    f1 = exact_match = total = 0
+def evaluate(eval_file, answer_dict, no_answer):
+    avna = f1 = exact_match = total = 0
     for key, value in answer_dict.items():
         total += 1
         ground_truths = eval_file[key]["answers"]
@@ -95,10 +101,20 @@ def evaluate(eval_file, answer_dict):
             exact_match_score, prediction, ground_truths)
         f1 += metric_max_over_ground_truths(f1_score,
                                             prediction, ground_truths)
-    exact_match = 100.0 * exact_match / total
-    f1 = 100.0 * f1 / total
-    return {'exact_match': exact_match, 'f1': f1}
+        if no_answer:
+            avna += compute_avna(prediction, ground_truths)
+        
+    eval_dict = {'exact_match' : 100.0 * exact_match / total, 
+                 'F1': 100.0 * f1 / total}
+    
+    if no_answer:
+        eval_dict['AvNA'] = 100.0 * avna / total
+    
+    return eval_dict
 
+def compute_avna(prediction, ground_truths):
+    """Compute answer vs. no-answer accuracy."""
+    return float(bool(prediction) == bool(ground_truths))
 
 def normalize_answer(s):
 
@@ -117,12 +133,19 @@ def normalize_answer(s):
 
     return white_space_fix(remove_articles(remove_punc(lower(s))))
 
+def get_tokens(s):
+    if not s:
+        return []
+    return normalize_answer(s).split()
 
 def f1_score(prediction, ground_truth):
-    prediction_tokens = normalize_answer(prediction).split()
-    ground_truth_tokens = normalize_answer(ground_truth).split()
+    prediction_tokens = get_tokens(prediction)
+    ground_truth_tokens = get_tokens(ground_truth)
     common = Counter(prediction_tokens) & Counter(ground_truth_tokens)
     num_same = sum(common.values())
+    if len(prediction_tokens) == 0 or len(ground_truth_tokens) == 0:
+        return int(prediction_tokens == ground_truth_tokens)
+    
     if num_same == 0:
         return 0
     precision = 1.0 * num_same / len(prediction_tokens)
@@ -136,6 +159,8 @@ def exact_match_score(prediction, ground_truth):
 
 
 def metric_max_over_ground_truths(metric_fn, prediction, ground_truths):
+    if not ground_truths:
+        return metric_fn(prediction, '')
     scores_for_ground_truths = []
     for ground_truth in ground_truths:
         score = metric_fn(prediction, ground_truth)

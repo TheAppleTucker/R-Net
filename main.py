@@ -62,7 +62,7 @@ def train(config):
                 sess.run(tf.assign(model.is_train,
                                    tf.constant(False, dtype=tf.bool)))
                 _, summ = evaluate_batch(
-                    model, config.val_num_batches, train_eval_file, sess, "train", handle, train_handle)
+                    model, config.val_num_batches, train_eval_file, sess, "train", handle, train_handle, config.use_squad_v2)
                 for s in summ:
                     writer.add_summary(s, global_step)
 
@@ -90,14 +90,14 @@ def train(config):
                 saver.save(sess, filename)
 
 
-def evaluate_batch(model, num_batches, eval_file, sess, data_type, handle, str_handle):
+def evaluate_batch(model, num_batches, eval_file, sess, data_type, handle, str_handle, use_squad_v2):
     answer_dict = {}
     losses = []
     for _ in tqdm(range(1, num_batches + 1)):
         qa_id, loss, yp1, yp2, = sess.run(
             [model.qa_id, model.loss, model.yp1, model.yp2], feed_dict={handle: str_handle})
         answer_dict_, _ = convert_tokens(
-            eval_file, qa_id.tolist(), yp1.tolist(), yp2.tolist())
+            eval_file, qa_id.tolist(), yp1.tolist(), yp2.tolist(), use_squad_v2)
         answer_dict.update(answer_dict_)
         losses.append(loss)
     loss = np.mean(losses)
