@@ -3,7 +3,6 @@ import numpy as np
 import re
 from collections import Counter
 import string
-import config
 
 
 def get_record_parser(config, is_test=False):
