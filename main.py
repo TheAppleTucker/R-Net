@@ -53,8 +53,10 @@ def train(config):
         for _ in tqdm(range(1, config.num_steps + 1)):
             print("HERE2")
             global_step = sess.run(model.global_step) + 1
+            print("HERE3")
             loss, train_op = sess.run([model.loss, model.train_op], feed_dict={
                                       handle: train_handle})
+            print("HERE4")
             if global_step % config.period == 0:
                 loss_sum = tf.Summary(value=[tf.Summary.Value(
                     tag="model/loss", simple_value=loss), ])
