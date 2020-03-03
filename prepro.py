@@ -155,8 +155,8 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
         context_char_idxs = np.zeros([para_limit, char_limit], dtype=np.int32)
         ques_idxs = np.zeros([ques_limit], dtype=np.int32)
         ques_char_idxs = np.zeros([ques_limit, char_limit], dtype=np.int32)
-        y1 = np.zeros([para_limit + 1], dtype=np.float32)
-        y2 = np.zeros([para_limit + 1], dtype=np.float32)
+        y1 = np.zeros([para_limit], dtype=np.float32)
+        y2 = np.zeros([para_limit], dtype=np.float32)
 
         def _get_word(word):
             for each in (word, word.lxower(), word.capitalize(), word.upper()):

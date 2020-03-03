@@ -40,7 +40,7 @@ def get_record_parser(config, is_test=False):
             ones = tf.ones([1, char_limit], tf.int32)
             context_char_idxs = tf.concat([ones, context_char_idxs], 0)
             #ques_char_idxs = tf.concat([ones, ques_char_idxs], 0)
-            zeros = tf.zeros([1], tf.flat32)
+            zeros = tf.zeros([1], tf.float32)
             y1 = tf.concat([zeros, y1], 0)
             y2 = tf.concat([zeros, y2], 0)
             
