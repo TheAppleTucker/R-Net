@@ -8,9 +8,9 @@ flags = tf.flags
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 home = os.path.expanduser("~")
-train_file = os.path.join(home, "data", "squad", "train-v2.0.json")
-dev_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
-test_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
+train_file = os.path.join(home, "data", "squad", "train-v1.1.json")
+dev_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
+test_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
 glove_word_file = os.path.join(home, "data", "glove", "glove.840B.300d.txt")
 
 target_dir = "data"
@@ -99,7 +99,7 @@ flags.DEFINE_integer("hidden", 75, "Hidden size")
 flags.DEFINE_integer("char_hidden", 100, "GRU dim for char")
 flags.DEFINE_integer("patience", 3, "Patience for lr decay")
 
-flags.DEFINE_boolean("use_squad_v2", True, "Whether to use SQuAD 2.0")
+flags.DEFINE_boolean("use_squad_v2", False, "Whether to use SQuAD 2.0")
 
 # Extensions (Uncomment corresponding line in download.sh to download the required data)
 glove_char_file = os.path.join(
