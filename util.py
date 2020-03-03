@@ -34,10 +34,10 @@ def get_record_parser(config, is_test=False):
             features["y2"], tf.float32), [para_limit])
         qa_id = features["id"]
         if config.use_squad_v2:
-            ones = tf.ones([1])
+            ones = tf.ones([1], tf.int32)
             context_idxs = tf.concat(context_idxs, ones)
             ques_idxs = tf.concat(context_idxs, ones)
-            ones = tf.ones([1, char_limit])
+            ones = tf.ones([1, char_limit], tf.int32)
             context_char_idxs = tf.concat(context_char_idxs, ones)
             ques_char_idxs = tf.concat(ques_char_idxs, ones)
             
