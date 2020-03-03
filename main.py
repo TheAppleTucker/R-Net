@@ -101,7 +101,7 @@ def evaluate_batch(model, num_batches, eval_file, sess, data_type, handle, str_h
         answer_dict.update(answer_dict_)
         losses.append(loss)
     loss = np.mean(losses)
-    metrics = evaluate(eval_file, answer_dict, config.use_squad_v2)
+    metrics = evaluate(eval_file, answer_dict, use_squad_v2)
     metrics["loss"] = loss
     loss_sum = tf.Summary(value=[tf.Summary.Value(
         tag="{}/loss".format(data_type), simple_value=metrics["loss"]), ])

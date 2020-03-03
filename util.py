@@ -78,12 +78,12 @@ def convert_tokens(eval_file, qa_id, pp1, pp2, no_answer):
         context = eval_file[str(qid)]["context"]
         spans = eval_file[str(qid)]["spans"]
         uuid = eval_file[str(qid)]["uuid"]
-        if no_answer and (p1 == 0 and p2 == 0):
+        if no_answer and (p1 == 0 or p2 == 0):
             answer_dict[str(qid)] = ''
             remapped_dict[uuid] = ''
         else:
-            #if no_answer:
-            #    p1, p2 = p1 - 1, p2 - 1
+            sif no_answer:
+                p1, p2 = p1 - 1, p2 - 1
             start_idx = spans[p1][0]
             end_idx = spans[p2][1]
             answer_dict[str(qid)] = context[start_idx: end_idx]
