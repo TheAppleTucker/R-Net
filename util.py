@@ -35,10 +35,12 @@ def get_record_parser(config, is_test=False):
         qa_id = features["id"]
         if config.use_squad_v2:
             ones = tf.ones([1], tf.int32)
+            ones = tf.reshape(ones, [1])
             print("SHAPES:", tf.shape(ones), tf.shape(context_idxs))
             context_idxs = tf.concat(ones, context_idxs)
             ques_idxs = tf.concat(ones, context_idxs)
             ones = tf.ones([1, char_limit], tf.int32)
+            ones = tf.reshape(ones, [1, char_limit])
             context_char_idxs = tf.concat(ones, context_char_idxs)
             ques_char_idxs = tf.concat(ones, ques_char_idxs)
             
