@@ -3,6 +3,7 @@ import numpy as np
 import re
 from collections import Counter
 import string
+import config
 
 
 def get_record_parser(config, is_test=False):
@@ -33,6 +34,14 @@ def get_record_parser(config, is_test=False):
         y2 = tf.reshape(tf.decode_raw(
             features["y2"], tf.float32), [para_limit])
         qa_id = features["id"]
+        if config.use_squad_v2:
+            ones = tf.ones([1])
+            context_idxs = tf.concat(context_idxs, ones)
+            ques_idxs = tf.concat(context_idxs, ones)
+            ones = tf.ones([1, char_limit])
+            context_char_idxs = tf.concat(context_char_idxs, ones)
+            ques_char_idxs = tf.concat(ques_char_idxs, ones)
+            
         return context_idxs, ques_idxs, context_char_idxs, ques_char_idxs, y1, y2, qa_id
     return parse
 

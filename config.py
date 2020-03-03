@@ -8,9 +8,9 @@ flags = tf.flags
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 home = os.path.expanduser("~")
-train_file = os.path.join(home, "data", "squad", "train-v1.1.json")
-dev_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
-test_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
+train_file = os.path.join(home, "data", "squad", "train-v2.0.json")
+dev_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
+test_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
 glove_word_file = os.path.join(home, "data", "glove", "glove.840B.300d.txt")
 
 target_dir = "data"
@@ -87,9 +87,9 @@ flags.DEFINE_boolean("is_bucket", False, "Whether to use bucketing")
 flags.DEFINE_list("bucket_range", [40, 361, 40], "range of bucket")
 
 flags.DEFINE_integer("batch_size", 64, "Batch size")
-flags.DEFINE_integer("num_steps", 500, "Number of steps")
-flags.DEFINE_integer("checkpoint", 100, "checkpoint for evaluation")
-flags.DEFINE_integer("period", 100, "period to save batch loss")
+flags.DEFINE_integer("num_steps", 50, "Number of steps")
+flags.DEFINE_integer("checkpoint", 10, "checkpoint for evaluation")
+flags.DEFINE_integer("period", 10, "period to save batch loss")
 flags.DEFINE_integer("val_num_batches", 150, "Num of batches for evaluation")
 flags.DEFINE_float("init_lr", 0.5, "Initial lr for Adadelta")
 flags.DEFINE_float("keep_prob", 0.7, "Keep prob in rnn")
@@ -99,7 +99,7 @@ flags.DEFINE_integer("hidden", 75, "Hidden size")
 flags.DEFINE_integer("char_hidden", 100, "GRU dim for char")
 flags.DEFINE_integer("patience", 3, "Patience for lr decay")
 
-flags.DEFINE_boolean("use_squad_v2", False, "Whether to use SQuAD 2.0")
+flags.DEFINE_boolean("use_squad_v2", True, "Whether to use SQuAD 2.0")
 
 # Extensions (Uncomment corresponding line in download.sh to download the required data)
 glove_char_file = os.path.join(
