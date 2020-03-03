@@ -22,7 +22,8 @@ class Model(object):
 
         if opt:
             N, CL = config.batch_size, config.char_limit
-            self.c_maxlen, self.q_maxlen = config.para_limit, config.ques_limit
+            self.c_maxlen = tf.reduce_max(self.c_len)
+            self.q_maxlen = tf.reduce_max(self.q_len)
             self.c = tf.slice(self.c, [0, 0], [N, self.c_maxlen])
             self.q = tf.slice(self.q, [0, 0], [N, self.q_maxlen])
             self.c_mask = tf.slice(self.c_mask, [0, 0], [N, self.c_maxlen])
