@@ -41,7 +41,7 @@ def get_record_parser(config, is_test=False):
             ones = tf.ones([1, char_limit], tf.int32)
             context_char_idxs = tf.concat([ones, context_char_idxs], 0)
             ques_char_idxs = tf.concat([ones, ques_char_idxs], 0)
-            print("SDFSDFSDFSDFSD:" , tf.shape(context_char_idxs))
+            print("SDFSDFSDFSDFSD:" , context_chaar_idxs.get_shape())
             
         return context_idxs, ques_idxs, context_char_idxs, ques_char_idxs, y1, y2, qa_id
     return parse
