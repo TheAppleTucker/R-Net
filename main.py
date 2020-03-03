@@ -31,7 +31,7 @@ def train(config):
         handle, train_dataset.output_types, train_dataset.output_shapes)
     train_iterator = train_dataset.make_one_shot_iterator()
     dev_iterator = dev_dataset.make_one_shot_iterator()
-
+    print("HERE0")
     model = Model(config, iterator, word_mat, char_mat)
 
     sess_config = tf.ConfigProto(allow_soft_placement=True)
@@ -40,7 +40,7 @@ def train(config):
     loss_save = 100.0
     patience = 0
     lr = config.init_lr
-
+    print("HERE1")
     with tf.Session(config=sess_config) as sess:
         writer = tf.summary.FileWriter(config.log_dir)
         sess.run(tf.global_variables_initializer())
@@ -51,6 +51,7 @@ def train(config):
         sess.run(tf.assign(model.lr, tf.constant(lr, dtype=tf.float32)))
 
         for _ in tqdm(range(1, config.num_steps + 1)):
+            print("HERE2")
             global_step = sess.run(model.global_step) + 1
             loss, train_op = sess.run([model.loss, model.train_op], feed_dict={
                                       handle: train_handle})
