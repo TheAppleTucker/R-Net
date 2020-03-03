@@ -186,9 +186,13 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
                 if j == char_limit:
                     break
                 ques_char_idxs[i, j] = _get_char(char)
-
-        start, end = example["y1s"][-1], example["y2s"][-1]
-        y1[start], y2[end] = 1.0, 1.0
+                
+        if is_answerable(example):
+            start, end = example["y1s"][-1], example["y2s"][-1]
+            y1[start], y2[end] = 1.0, 1.0
+        else:
+            start, end = -1
+        
 
         record = tf.train.Example(features=tf.train.Features(feature={
                                   "context_idxs": tf.train.Feature(bytes_list=tf.train.BytesList(value=[context_idxs.tostring()])),
