@@ -8,9 +8,9 @@ flags = tf.flags
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 home = os.path.expanduser("~")
-train_file = os.path.join(home, "data", "squad", "train-v2.0.json")
-dev_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
-test_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
+train_file = os.path.join(home, "data", "squad", "train-v1.1.json")
+dev_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
+test_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
 glove_word_file = os.path.join(home, "data", "glove", "glove.840B.300d.txt")
 
 target_dir = "data"
@@ -90,7 +90,7 @@ flags.DEFINE_integer("batch_size", 64, "Batch size")
 flags.DEFINE_integer("num_steps", 100, "Number of steps")
 flags.DEFINE_integer("checkpoint", 10, "checkpoint for evaluation")
 flags.DEFINE_integer("period", 10, "period to save batch loss")
-flags.DEFINE_integer("val_num_batches", 150, "Num of batches for evaluation")
+flags.DEFINE_integer("val_num_batches", 10, "Num of batches for evaluation")
 flags.DEFINE_float("init_lr", 0.5, "Initial lr for Adadelta")
 flags.DEFINE_float("keep_prob", 0.7, "Keep prob in rnn")
 flags.DEFINE_float("ptr_keep_prob", 0.7, "Keep prob for pointer network")
