@@ -99,7 +99,7 @@ flags.DEFINE_integer("hidden", 75, "Hidden size")
 flags.DEFINE_integer("char_hidden", 100, "GRU dim for char")
 flags.DEFINE_integer("patience", 3, "Patience for lr decay")
 
-flags.DEFINE_boolean("use_squad_v2", True, "Whether to use SQuAD 2.0")
+flags.DEFINE_boolean("use_squad_v2", False, "Whether to use SQuAD 2.0")
 
 # Extensions (Uncomment corresponding line in download.sh to download the required data)
 glove_char_file = os.path.join(
