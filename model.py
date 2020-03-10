@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 from func import cudnn_gru, native_gru, dot_attention, summ, dropout, ptr_net
 
 
@@ -118,6 +119,17 @@ class Model(object):
             outer = tf.matmul(tf.expand_dims(tf.nn.softmax(logits1), axis=2),
                               tf.expand_dims(tf.nn.softmax(logits2), axis=1))
             outer = tf.matrix_band_part(outer, 0, 15)
+            
+            
+            
+            m = outer.get_shape().as_list()[1]
+            n = outer.get_shape().as_list()[2]
+            no_answer_mask = np.ones(m, n)
+            no_answer_mask[0,:] = 0
+            no_answer_mask[:,0] = 0
+            outer *= no_answer_mask
+            
+            
             self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
             self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
             losses = tf.nn.softmax_cross_entropy_with_logits_v2(
