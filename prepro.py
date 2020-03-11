@@ -132,11 +132,11 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
         if is_test:
             drop = False
         else:
-            drop = len(ex["context_tokens"]) + 1 > para_limit or \
+            drop = (not is_answerable(ex)) or \
+                   len(ex["context_tokens"]) + 1 > para_limit or \
                    len(ex["ques_tokens"]) + 1 > ques_limit or \
                    (is_answerable(ex) and
                     ex["y2s"][0] - ex["y1s"][0] > ans_limit)
-                   or !is_answerable(ex)
 
         return drop
 
