@@ -197,7 +197,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
                 
         if is_answerable(example):
             start, end = example["y1s"][-1], example["y2s"][-1]
-            y1[start], y2[end] = 1.0, 1.0
+            y1[start+1], y2[end+1] = 1.0, 1.0
         else:
             y1[0], y2[0] = 1.0, 1.0
         
