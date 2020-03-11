@@ -153,7 +153,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
         total_ += 1
         
         if not is_answerable(example):
-            no_ans_limit += 1
+            num_no_ans += 1
 
         if filter_func(example, is_test):
             continue
