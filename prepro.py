@@ -128,12 +128,12 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
     ans_limit = config.ans_limit
     char_limit = config.char_limit
 
-    def filter_func(ex, is_test_=False):
-        if is_test_:
+    def filter_func(ex, is_test=False):
+        if is_test:
             drop = False
         else:
-            drop = len(ex["context_tokens"]) > para_limit or \
-                   len(ex["ques_tokens"]) > ques_limit or \
+            drop = len(ex["context_tokens"]) + 1 > para_limit or \
+                   len(ex["ques_tokens"]) + 1 > ques_limit or \
                    (is_answerable(ex) and
                     ex["y2s"][0] - ex["y1s"][0] > ans_limit)
 
@@ -168,24 +168,32 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
             if char in char2idx_dict:
                 return char2idx_dict[char]
             return 1
-
+        
+        context_idxs[0] = 1
         for i, token in enumerate(example["context_tokens"]):
-            context_idxs[i] = _get_word(token)
+            context_idxs[i+1] = _get_word(token)
 
+        ques_idxs[0] = 1
         for i, token in enumerate(example["ques_tokens"]):
-            ques_idxs[i] = _get_word(token)
+            ques_idxs[i+1] = _get_word(token)
 
+        context_max_char_len = 0
         for i, token in enumerate(example["context_chars"]):
+            context_max_char_len = max(context_max_char_len, len(token))
             for j, char in enumerate(token):
                 if j == char_limit:
                     break
-                context_char_idxs[i, j] = _get_char(char)
+                context_char_idxs[i+1, j] = _get_char(char)
+        context_char_idxs[0,:] = np.ones(context_max_char_len)
 
+        ques_max_char_len = 0
         for i, token in enumerate(example["ques_chars"]):
+            ques_max_char_len = max(ques_max_char_len, len(token))
             for j, char in enumerate(token):
                 if j == char_limit:
                     break
-                ques_char_idxs[i, j] = _get_char(char)
+                ques_char_idxs[i+1, j] = _get_char(char)
+        ques_char_idxs[0,:] = np.ones(ques_max_char_len)
                 
         if is_answerable(example):
             start, end = example["y1s"][-1], example["y2s"][-1]
