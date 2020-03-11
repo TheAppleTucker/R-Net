@@ -142,10 +142,11 @@ class Model(object):
             
             
             max_prob = tf.reduce_max(pp1, axis = -1)
-            zero_answer_mask =  tf.cast((max_prob > p_no_answer), tf.int32)
+            zero_answer_mask =  tf.cast((max_prob > p_no_answer), tf.int64)
             
             self.yp1 = self.yp1*zero_answer_mask
             self.yp2 = self.yp2*zero_answer_mask
+            
             
             losses = tf.nn.softmax_cross_entropy_with_logits_v2(
                 logits=logits1, labels=tf.stop_gradient(self.y1))
