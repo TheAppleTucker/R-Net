@@ -124,7 +124,7 @@ class Model(object):
             
             m = outer.get_shape().as_list()[1]
             n = outer.get_shape().as_list()[2]
-            no_answer_mask = np.ones(m, n)
+            no_answer_mask = np.ones((m, n))
             no_answer_mask[0,:] = 0
             no_answer_mask[:,0] = 0
             outer *= no_answer_mask
