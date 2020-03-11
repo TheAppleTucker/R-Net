@@ -134,11 +134,11 @@ class Model(object):
             outer *= mask1
             outer *= mask2
             
-            pp1 = tf.reduce_max(outer, axis=2)
-            pp2 = tf.reduce_max(outer, axis=1)
+            self.pp1 = tf.reduce_max(outer, axis=2)
+            self.pp2 = tf.reduce_max(outer, axis=1)
             
-            self.yp1 = tf.argmax(pp1, axis=-1)
-            self.yp2 = tf.argmax(pp2, axis=-1)
+            self.yp1 = tf.argmax(self.pp1, axis=-1)
+            self.yp2 = tf.argmax(self.pp2, axis=-1)
             
             #print(self.yp1, self.yp2)
             
