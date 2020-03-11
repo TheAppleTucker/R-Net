@@ -140,6 +140,8 @@ class Model(object):
             self.yp1 = tf.argmax(pp1, axis=-1)
             self.yp2 = tf.argmax(pp2, axis=-1)
             
+            print(self.yp1, self.yp2)
+            
             
             max_prob = tf.reduce_max(pp1, axis = -1)
             zero_answer_mask =  tf.cast((max_prob > p_no_answer), tf.int64)
