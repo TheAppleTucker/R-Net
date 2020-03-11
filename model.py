@@ -120,32 +120,32 @@ class Model(object):
                               tf.expand_dims(tf.nn.softmax(logits2), axis=1))
             outer = tf.matrix_band_part(outer, 0, 15)
             
-            p_no_answer = outer[:,0,0]
-            
-            tnsr_shape = tf.shape(outer)
-            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.int32), tnsr_shape[-1])]
-            mask1 = tf.reduce_sum(mask1, axis=0)
-            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.int32)
-            mask2 = tf.transpose(tf.identity(mask1))
-            
-            mask1 = tf.cast(mask1, dtype = tf.float32)
-            mask2 = tf.cast(mask2, dtype = tf.float32)
-            outer *= mask1
-            outer *= mask2
-            
-            
-            self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
-            self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
-            
-            self.yp1 = tf.cast(self.yp1, dtype = tf.float32)
-            self.yp2 = tf.cast(self.yp2, dtype = tf.float32)
-            zero_answer_mask =  tf.cast((self.yp1 > p_no_answer), tf.int32)
-            
-            self.yp1 = tf.cast(self.yp1, dtype = tf.int32)
-            self.yp2 = tf.cast(self.yp2, dtype = tf.int32)
-            
-            self.yp1 = self.yp1*zero_answer_mask
-            self.yp2 = self.yp2*zero_answer_mask
+#            p_no_answer = outer[:,0,0]
+#            
+#            tnsr_shape = tf.shape(outer)
+#            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.int32), tnsr_shape[-1])]
+#            mask1 = tf.reduce_sum(mask1, axis=0)
+#            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.int32)
+#            mask2 = tf.transpose(tf.identity(mask1))
+#            
+#            mask1 = tf.cast(mask1, dtype = tf.float32)
+#            mask2 = tf.cast(mask2, dtype = tf.float32)
+#            outer *= mask1
+#            outer *= mask2
+#            
+#            
+#            self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
+#            self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
+#            
+#            self.yp1 = tf.cast(self.yp1, dtype = tf.float32)
+#            self.yp2 = tf.cast(self.yp2, dtype = tf.float32)
+#            zero_answer_mask =  tf.cast((self.yp1 > p_no_answer), tf.int32)
+#            
+#            self.yp1 = tf.cast(self.yp1, dtype = tf.int32)
+#            self.yp2 = tf.cast(self.yp2, dtype = tf.int32)
+#            
+#            self.yp1 = self.yp1*zero_answer_mask
+#            self.yp2 = self.yp2*zero_answer_mask
             
             losses = tf.nn.softmax_cross_entropy_with_logits_v2(
                 logits=logits1, labels=tf.stop_gradient(self.y1))
