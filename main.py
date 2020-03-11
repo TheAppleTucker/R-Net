@@ -99,8 +99,8 @@ def evaluate_batch(model, num_batches, eval_file, sess, data_type, handle, str_h
     for _ in tqdm(range(1, num_batches + 1)):
         qa_id, loss, yp1, yp2, y1, y2 = sess.run(
             [model.qa_id, model.loss, model.yp1, model.yp2, model.y1, model.y2], feed_dict={handle: str_handle})
-        print("PREDICTIONS: ", zip(yp1, yp2))
-        print("ANSWERS    : ", zip( np.argmax(y2, axis = 1), np.argmax(y1, axis = 1)))
+        print("PREDICTIONS: ", list(zip(yp1, yp2)))
+        print("ANSWERS    : ", list(zip( np.argmax(y2, axis = 1), np.argmax(y1, axis = 1))))
         answer_dict_, _ = convert_tokens(
             eval_file, qa_id.tolist(), yp1.tolist(), yp2.tolist(), use_squad_v2)
         answer_dict.update(answer_dict_)
