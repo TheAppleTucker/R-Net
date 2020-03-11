@@ -174,7 +174,7 @@ def exact_match_score(prediction, ground_truth):
         a = "NO ANSWER"
     if(b == ''):
         b = "NO ANSWER"
-   # print(a, '|', b)
+    print(a, '|', b)
     
     return (normalize_answer(prediction) == normalize_answer(ground_truth))
 
