@@ -127,7 +127,9 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
     ques_limit = config.test_ques_limit if is_test else config.ques_limit
     ans_limit = config.ans_limit
     char_limit = config.char_limit
-
+    
+    no_ans_limit = 10000
+    num_no_ans = 0
     def filter_func(ex, is_test=False):
         if is_test:
             drop = False
@@ -136,7 +138,10 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
                    len(ex["ques_tokens"]) + 1 > ques_limit or \
                    (is_answerable(ex) and
                     ex["y2s"][0] - ex["y1s"][0] > ans_limit)
-
+                   
+        if (not is_answerable(ex) and num_no_ans > no_ans_limit):
+            return True
+        
         return drop
 
     print("Processing {} examples...".format(data_type))
@@ -146,6 +151,9 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
     meta = {}
     for example in tqdm(examples):
         total_ += 1
+        
+        if not is_answerable(example):
+            no_ans_limit += 1
 
         if filter_func(example, is_test):
             continue
