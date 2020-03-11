@@ -122,16 +122,14 @@ class Model(object):
             
             p_no_answer = outer[:,0,0]
             
-            m = outer.get_shape().as_list()[1]
-            n = outer.get_shape().as_list()[2]
-            
-            print("MN VALUES", m , n)
-            no_answer_mask = np.ones((m, n))
-            no_answer_mask[0,:] = 0
-            no_answer_mask[:,0] = 0
-            outer *= no_answer_mask
-            
-            
+            tnsr_shape = tf.shape(outer)
+            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.int32), tnsr_shape[-1])]
+            mask1 = tf.reduce_sum(mask1, axis=0)
+            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.float32)
+            mask2 = tf.transpose(tf.identity(mask1))
+                 
+            outer *= mask1
+            outer *= mask2
             
             
             self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
