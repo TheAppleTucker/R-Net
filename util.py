@@ -168,6 +168,7 @@ def f1_score(prediction, ground_truth):
 
 
 def exact_match_score(prediction, ground_truth):
+    print(normalize_answer(prediction), normalize_answer(ground_truth))
     return (normalize_answer(prediction) == normalize_answer(ground_truth))
 
 
