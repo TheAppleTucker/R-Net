@@ -123,9 +123,9 @@ class Model(object):
             p_no_answer = outer[:,0,0]
             
             tnsr_shape = tf.shape(outer)
-            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.int64), tnsr_shape[-1])]
+            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.int32), tnsr_shape[-1])]
             mask1 = tf.reduce_sum(mask1, axis=0)
-            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.int64)
+            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.int32)
             mask2 = tf.transpose(tf.identity(mask1))
                  
             outer *= mask1
@@ -135,7 +135,11 @@ class Model(object):
             self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
             self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
             
+            self.yp1 = tf.cast(self.yp1, dtype = tf.float32)
+            self.yp2 = tf.cast(self.yp2, dtype = tf.float32)
             zero_answer_mask =  tf.cast((self.yp1 > p_no_answer), tf.int64)
+            self.yp1 = tf.cast(self.yp1, dtype = tf.int32)
+            self.yp2 = tf.cast(self.yp2, dtype = tf.int32)
             self.yp1 = self.yp1*zero_answer_mask
             self.yp2 = self.yp2*zero_answer_mask
             
