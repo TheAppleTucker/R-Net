@@ -169,7 +169,7 @@ def f1_score(prediction, ground_truth):
 
 def exact_match_score(prediction, ground_truth):
     a = normalize_answer(prediction)
-    b = normalize_answer(prediction)
+    b = normalize_answer(ground_truth)
     if(a == ''):
         a = "NO ANSWER"
     if(b == ''):
