@@ -123,11 +123,13 @@ class Model(object):
             p_no_answer = outer[:,0,0]
             
             tnsr_shape = tf.shape(outer)
-            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.float32), tnsr_shape[-1])]
+            mask1 = [tf.one_hot(0*tf.ones((tnsr_shape[1], ), dtype=tf.int32), tnsr_shape[-1])]
             mask1 = tf.reduce_sum(mask1, axis=0)
-            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.float32)
+            mask1 = tf.cast(tf.logical_not(tf.cast(mask1, tf.bool)), tf.int32)
             mask2 = tf.transpose(tf.identity(mask1))
-                 
+            
+            mask1 = tf.cast(mask1, dtype = tf.float32)
+            mask2 = tf.cast(mask2, dtype = tf.float32)
             outer *= mask1
             outer *= mask2
             
