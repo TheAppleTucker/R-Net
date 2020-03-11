@@ -8,9 +8,9 @@ flags = tf.flags
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 home = os.path.expanduser("~")
-train_file = os.path.join(home, "data", "squad", "train-v1.1.json")
-dev_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
-test_file = os.path.join(home, "data", "squad", "dev-v1.1.json")
+train_file = os.path.join(home, "data", "squad", "train-v2.0.json")
+dev_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
+test_file = os.path.join(home, "data", "squad", "dev-v2.0.json")
 glove_word_file = os.path.join(home, "data", "glove", "glove.840B.300d.txt")
 
 target_dir = "data"
