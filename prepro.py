@@ -136,6 +136,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
                    len(ex["ques_tokens"]) + 1 > ques_limit or \
                    (is_answerable(ex) and
                     ex["y2s"][0] - ex["y1s"][0] > ans_limit)
+                   or !is_answerable(ex)
 
         return drop
 
