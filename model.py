@@ -134,8 +134,8 @@ class Model(object):
 #            outer *= mask2
 #            
 #            
-#            self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
-#            self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
+            self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
+            self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
 #            
 #            self.yp1 = tf.cast(self.yp1, dtype = tf.float32)
 #            self.yp2 = tf.cast(self.yp2, dtype = tf.float32)
