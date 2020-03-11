@@ -86,7 +86,7 @@ flags.DEFINE_boolean("use_cudnn", True, "Whether to use cudnn (only for GPU)")
 flags.DEFINE_boolean("is_bucket", False, "Whether to use bucketing")
 flags.DEFINE_list("bucket_range", [40, 361, 40], "range of bucket")
 
-flags.DEFINE_integer("batch_size", 4, "Batch size")
+flags.DEFINE_integer("batch_size", 64, "Batch size")
 flags.DEFINE_integer("num_steps", 100, "Number of steps")
 flags.DEFINE_integer("checkpoint", 10, "checkpoint for evaluation")
 flags.DEFINE_integer("period", 10, "period to save batch loss")
