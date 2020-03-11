@@ -177,23 +177,23 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
         for i, token in enumerate(example["ques_tokens"]):
             ques_idxs[i+1] = _get_word(token)
 
-        context_max_char_len = 0
+        #context_max_char_len = 0
         for i, token in enumerate(example["context_chars"]):
-            context_max_char_len = max(context_max_char_len, len(token))
+            #context_max_char_len = max(context_max_char_len, len(token))
             for j, char in enumerate(token):
                 if j == char_limit:
                     break
                 context_char_idxs[i+1, j] = _get_char(char)
-        context_char_idxs[0,:] = np.ones(context_max_char_len)
+        context_char_idxs[0,:] = np.ones(char_limit)
 
-        ques_max_char_len = 0
+        #ques_max_char_len = 0
         for i, token in enumerate(example["ques_chars"]):
-            ques_max_char_len = max(ques_max_char_len, len(token))
+            #ques_max_char_len = max(ques_max_char_len, len(token))
             for j, char in enumerate(token):
                 if j == char_limit:
                     break
                 ques_char_idxs[i+1, j] = _get_char(char)
-        ques_char_idxs[0,:] = np.ones(ques_max_char_len)
+        ques_char_idxs[0,:] = np.ones(char_limit)
                 
         if is_answerable(example):
             start, end = example["y1s"][-1], example["y2s"][-1]
