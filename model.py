@@ -137,15 +137,15 @@ class Model(object):
             self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
             self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
             
-#            self.yp1 = tf.cast(self.yp1, dtype = tf.float32)
-#            self.yp2 = tf.cast(self.yp2, dtype = tf.float32)
-#            zero_answer_mask =  tf.cast((self.yp1 > p_no_answer), tf.int32)
-#            
-#            self.yp1 = tf.cast(self.yp1, dtype = tf.int32)
-#            self.yp2 = tf.cast(self.yp2, dtype = tf.int32)
-#            
-#            self.yp1 = self.yp1*zero_answer_mask
-#            self.yp2 = self.yp2*zero_answer_mask
+            self.yp1 = tf.cast(self.yp1, dtype = tf.float32)
+            self.yp2 = tf.cast(self.yp2, dtype = tf.float32)
+            zero_answer_mask =  tf.cast((self.yp1 > p_no_answer), tf.int32)
+            
+            self.yp1 = tf.cast(self.yp1, dtype = tf.int32)
+            self.yp2 = tf.cast(self.yp2, dtype = tf.int32)
+            
+            self.yp1 = self.yp1*zero_answer_mask
+            self.yp2 = self.yp2*zero_answer_mask
             
             losses = tf.nn.softmax_cross_entropy_with_logits_v2(
                 logits=logits1, labels=tf.stop_gradient(self.y1))
