@@ -128,7 +128,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
     ans_limit = config.ans_limit
     char_limit = config.char_limit
     
-    no_ans_limit = 10000
+    no_ans_limit = 1000
     num_no_ans = 0
     def filter_func(ex, is_test=False):
         if is_test:
