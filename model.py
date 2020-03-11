@@ -120,7 +120,7 @@ class Model(object):
                               tf.expand_dims(tf.nn.softmax(logits2), axis=1))
             outer = tf.matrix_band_part(outer, 0, 15)
             
-            
+            p_no_answer = outer[:,0,0]
             
             m = outer.get_shape().as_list()[1]
             n = outer.get_shape().as_list()[2]
@@ -130,8 +130,15 @@ class Model(object):
             outer *= no_answer_mask
             
             
+            
+            
             self.yp1 = tf.argmax(tf.reduce_max(outer, axis=2), axis=1)
             self.yp2 = tf.argmax(tf.reduce_max(outer, axis=1), axis=1)
+            
+            zero_answer_mask =  tf.cast((self.yp1 > p_no_answer), tf.int64)
+            self.yp1 = self.yp1*zero_answer_mask
+            self.yp2 = self.yp2*zero_answer_mask
+            
             losses = tf.nn.softmax_cross_entropy_with_logits_v2(
                 logits=logits1, labels=tf.stop_gradient(self.y1))
             losses2 = tf.nn.softmax_cross_entropy_with_logits_v2(
