@@ -97,9 +97,9 @@ def evaluate_batch(model, num_batches, eval_file, sess, data_type, handle, str_h
     answer_dict = {}
     losses = []
     for _ in tqdm(range(1, num_batches + 1)):
-        qa_id, loss, yp1, yp2, = sess.run(
-            [model.qa_id, model.loss, model.yp1, model.yp2], feed_dict={handle: str_handle})
-        print(yp1.tolist(),'|', yp2.tolist())
+        qa_id, loss, yp1, yp2, y1 = sess.run(
+            [model.qa_id, model.loss, model.yp1, model.yp2, model.y1], feed_dict={handle: str_handle})
+        print(yp1.tolist(),'|', y1.tolist())
         answer_dict_, _ = convert_tokens(
             eval_file, qa_id.tolist(), yp1.tolist(), yp2.tolist(), use_squad_v2)
         answer_dict.update(answer_dict_)
