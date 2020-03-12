@@ -114,8 +114,8 @@ def evaluate(eval_file, answer_dict, no_answer):
             exact_match_score, prediction, ground_truths)
         f1 += metric_max_over_ground_truths(f1_score,
                                             prediction, ground_truths)
-        #if no_answer:
-        #    avna += compute_avna(prediction, ground_truths)
+        if no_answer:
+            avna += compute_avna(prediction, ground_truths)
         
     eval_dict = {'exact_match' : 100.0 * exact_match / total, 
                  'f1': 100.0 * f1 / total}
