@@ -132,7 +132,7 @@ def build_features(config, examples, data_type, out_file, word2idx_dict, char2id
     num_no_ans = 0
     def filter_func(ex, is_test=False):
         if is_test:
-            drop = False
+            return False
         else:
             drop = len(ex["context_tokens"]) + 1 > para_limit or \
                    len(ex["ques_tokens"]) + 1 > ques_limit or \
