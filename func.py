@@ -1,4 +1,6 @@
 import tensorflow as tf
+from bert_embedding import BertEmbedding
+
 
 INF = 1e30
 
